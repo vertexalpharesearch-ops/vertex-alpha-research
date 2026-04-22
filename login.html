@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Vertex Alpha Research</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container { max-width: 400px; margin: 100px auto; padding: 40px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); text-align: center; }
+        .auth-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .auth-form input { padding: 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-darker); color: white; width: 100%; }
+        .toggle-text { margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; }
+        .toggle-text:hover { color: var(--accent-green); }
+        .error-msg { color: #ef4444; font-size: 0.85rem; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-container">
+            <div class="logo">Vertex Alpha Research</div>
+            <h2 id="auth-title">Welcome Back</h2>
+            <p style="color: var(--text-muted);">Enter your details to access your edge.</p>
+
+            <form id="auth-form" class="auth-form">
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary" id="auth-btn">Log In</button>
+            </form>
+            
+            <div id="error-message" class="error-msg"></div>
+            <div class="toggle-text" id="toggle-mode">Don't have an account? Sign Up</div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        
+        // FIXED: All Auth imports consolidated into one clean line
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Your exact config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
+            authDomain: "vertex-alpha-research.firebaseapp.com",
+            projectId: "vertex-alpha-research",
+            storageBucket: "vertex-alpha-research.firebasestorage.app",
+            messagingSenderId: "992971890985",
+            appId: "1:992971890985:web:1dec88b6a69a5812e61738"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // SMART UX: If they are already logged in, send them straight to the dashboard
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = "dashboard.html";
+            }
+        });
+
+        // UI Toggles
+        let isLogin = true;
+        const form = document.getElementById('auth-form');
+        const title = document.getElementById('auth-title');
+        const btn = document.getElementById('auth-btn');
+        const toggle = document.getElementById('toggle-mode');
+        const errorMsg = document.getElementById('error-message');
+
+        toggle.addEventListener('click', () => {
+            isLogin = !isLogin;
+            title.innerText = isLogin ? "Welcome Back" : "Create Account";
+            btn.innerText = isLogin ? "Log In" : "Sign Up";
+            toggle.innerText = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Log In";
+            errorMsg.innerText = "";
+        });
+
+        // Form Submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            btn.innerText = "Processing...";
+            errorMsg.innerText = "";
+
+            try {
+                if (isLogin) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } else {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                }
+                // If successful, redirect to dashboard!
+                window.location.href = "dashboard.html";
+            } catch (error) {
+                errorMsg.innerText = error.message;
+                btn.innerText = isLogin ? "Log In" : "Sign Up";
+            }
+        });
+    </script>
+</body>
+</html>
