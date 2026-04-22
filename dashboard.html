@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard | Vertex Alpha Research</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-body">
+    
+    <aside class="sidebar">
+        <div class="logo">Vertex Alpha Research</div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active">Overview</a>
+            <a href="#">Latest Reports</a>
+            <a href="#">Equities</a>
+            <a href="#">Crypto Strategies</a>
+            <a href="#">Saved Items</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="#">Account Settings</a>
+            <a href="#">Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <div class="search-bar">
+                <input type="text" placeholder="Search tickers, sectors, or reports...">
+            </div>
+            <div class="user-profile">Member Profile</div>
+        </header>
+
+        <section class="welcome-banner">
+            <div>
+                <span class="tag">New Release</span>
+                <h2>Integrating Alpaca API for Micro-Cap Momentum</h2>
+                <p>Published April 21, 2026 • 15 min read</p>
+            </div>
+            <button class="btn-primary">Read Full Report</button>
+        </section>
+
+        <section class="recent-uploads">
+            <h3>Recent Research</h3>
+            <div class="grid-3" id="reports-grid">
+                
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        // Your exact Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
+            authDomain: "vertex-alpha-research.firebaseapp.com",
+            projectId: "vertex-alpha-research",
+            storageBucket: "vertex-alpha-research.firebasestorage.app",
+            messagingSenderId: "992971890985",
+            appId: "1:992971890985:web:1dec88b6a69a5812e61738",
+            measurementId: "G-YYZSQWEKQN"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app); // Initialize Auth
+        // THE LOCK: Check if user is logged in
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Kick them out to the login page if not logged in
+                window.location.href = "login.html"; 
+            } else {
+                // If they are logged in, load the reports!
+                loadReports(); 
+                
+                // Update the UI with their email
+                document.querySelector('.user-profile').innerText = user.email;
+            }
+        });
+
+        // Logout Button Logic
+        document.querySelector('.sidebar-bottom a:last-child').addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => window.location.href = "login.html");
+        });
+
+        // Fetch and Render Reports
+        async function loadReports() {
+            const grid = document.getElementById('reports-grid');
+            grid.innerHTML = '<p style="color: var(--text-muted);">Loading research from database...</p>';
+
+            try {
+                // Query reports, newest first
+                const q = query(collection(db, "reports"), orderBy("publishDate", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                grid.innerHTML = ''; // Clear loading text
+
+                if (querySnapshot.empty) {
+                    grid.innerHTML = '<p style="color: var(--text-muted);">No reports published yet.</p>';
+                    return;
+                }
+
+                // Loop through database and build cards
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    
+                    const cardHTML = `
+                        <div class="report-card">
+                            <div class="report-category">${data.category || 'Research'}</div>
+                            <h4>${data.title || 'Untitled Report'}</h4>
+                            <p>${data.summary || ''}</p>
+                            <a href="${data.pdfUrl || '#'}" target="_blank" class="download-link">
+                                ${data.isPremium ? '🔒 Premium PDF ↓' : 'Download PDF ↓'}
+                            </a>
+                        </div>
+                    `;
+                    grid.innerHTML += cardHTML;
+                });
+
+            } catch (error) {
+                console.error("Error loading reports:", error);
+                grid.innerHTML = '<p style="color: #ef4444;">Failed to load data. Please check console.</p>';
+            }
+        }
+
+    </script>
+</body>
+</html>
