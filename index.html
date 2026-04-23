@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertex Alpha Research | High-Growth Market Research</title>
+    <title>Vertex Alpha Research | Institutional-Style Research</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,13 +11,14 @@
         <div class="container nav-container">
             <div class="logo">Vertex Alpha Research</div>
             <nav>
-                <a href="index.html">Home</a>
+                <a href="index.html" class="active">Home</a>
                 <a href="pricing.html">Pricing</a>
+                <a href="about.html">About</a>
                 <a href="dashboard.html">Dashboard</a>
             </nav>
             <div class="nav-buttons">
                 <a href="login.html" class="btn-secondary">Login</a>
-                <a href="pricing.html" class="btn-primary">Subscribe Now</a>
+                <a href="pricing.html" class="btn-primary">Join Premium</a>
             </div>
         </div>
     </header>
@@ -25,18 +26,23 @@
     <section class="hero">
         <div class="container hero-content">
             <div class="hero-text">
-                <h1>Find the next high-growth assets before the market notices.</h1>
-                <p>Data-driven, algorithmic analysis bridging the gap between raw Python metrics and actionable trading strategies for stocks and crypto.</p>
+                <h1>Institutional-Style Research for Retail Investors</h1>
+                <p>Get access to high-conviction stock & IPO research reports backed by data-driven analysis.</p>
+                
                 <div class="hero-cta">
-                    <input type="email" placeholder="Enter your email" class="email-input">
-                    <button class="btn-primary">Get Free Sample Report</button>
+                    <input type="email" placeholder="Enter email for free report" class="email-input">
+                    <button class="btn-primary" onclick="window.location.href='login.html'">Download Free Report</button>
+                </div>
+                <div style="margin-top: 15px;">
+                    <a href="#sample" class="btn-secondary" style="margin-right: 10px;">View Sample</a>
+                    <a href="pricing.html" class="btn-primary">Join Premium</a>
                 </div>
             </div>
             <div class="hero-graphic">
                 <div class="mockup-box">
-                    <h3>Live Alpha Signal</h3>
-                    <p class="green-text">+24.5% 30-Day Trend</p>
-                    <div class="chart-placeholder"></div>
+                    <h3>Latest Deep Dive</h3>
+                    <p class="green-text">Pre-IPO Analysis: [Company X]</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Growth Drivers • Financials • Verdict</p>
                 </div>
             </div>
         </div>
@@ -44,21 +50,59 @@
 
     <section class="features bg-darker">
         <div class="container">
-            <h2 class="text-center">Stop guessing. Start investing with an edge.</h2>
+            <h2 class="text-center" style="margin-bottom: 40px;">Our Research Edge</h2>
             <div class="grid-3">
                 <div class="feature-card">
-                    <h3>Deep-Dive Research</h3>
-                    <p>Comprehensive PDF reports breaking down technical setups and fundamental catalysts.</p>
+                    <h3>Pre-IPO Research</h3>
+                    <p>Identify massive growth potential before companies hit the public markets.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Algorithmic Edge</h3>
-                    <p>We leverage automated logic and quantitative data to remove emotion from investing.</p>
+                    <h3>Equity Research</h3>
+                    <p>Deep-dive reports including investment thesis, financial analysis, and clear verdicts.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Transparent Tracking</h3>
-                    <p>Every call is documented. Track our performance against major market benchmarks.</p>
+                    <h3>Market Insights & Telegram</h3>
+                    <p>Get real-time priority updates and exclusive access to our members-only Telegram channel.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="features" id="sample">
+        <div class="container text-center">
+            <h2 style="color: var(--accent-green); margin-bottom: 10px;">Backed by Data. Driven by Results.</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 40px auto;">Led by our Chief Research Analyst, we provide independent research based strictly on data, market trends, and asymmetric risk analysis. No hype, just high-conviction setups.</p>
+            
+            <div class="mockup-box" style="max-width: 700px; margin: 0 auto; text-align: left;">
+                <span class="tag">Free Sample</span>
+                <h3 style="margin: 15px 0;">Palantir (PLTR) – Deep Research Report</h3>
+                <p style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">Investment Thesis • Financial Analysis • Growth Drivers • Risks</p>
+                <a href="#" class="btn-secondary">Download PDF Preview ↓</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features bg-darker text-center">
+        <div class="container">
+            <h2>Choose Your Edge</h2>
+            <div class="grid-3" style="margin-top: 40px;">
+                <div class="price-card">
+                    <h3>Basic</h3>
+                    <div class="price">$0</div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">1-2 sample reports & limited insights.</p>
+                </div>
+                <div class="price-card featured">
+                    <h3>Premium</h3>
+                    <div class="price">$49<span>/mo</span></div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Full reports, archive access & Telegram.</p>
+                </div>
+                <div class="price-card">
+                    <h3>Ultra Premium</h3>
+                    <div class="price">$199<span>/mo</span></div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Pre-IPO research, early access & Q&A.</p>
+                </div>
+            </div>
+            <a href="pricing.html" class="btn-primary" style="margin-top: 30px; display: inline-block;">View Full Pricing Details</a>
         </div>
     </section>
 
@@ -67,22 +111,13 @@
             <div class="footer-grid">
                 <div>
                     <h4>Vertex Alpha Research</h4>
-                    <p>Yellowknife, NT, Canada</p>
                 </div>
                 <div>
                     <h4>Links</h4>
-                    <a href="#">About Us</a><br>
-                    <a href="#">Terms & Conditions</a><br>
+                    <a href="about.html">About Us</a><br>
+                    <a href="disclaimer.html">Disclaimer</a><br>
                     <a href="#">Privacy Policy</a>
                 </div>
-            </div>
-            <div class="disclaimer">
-                <strong>Financial Disclaimer:</strong><br><br>
-                The information provided by Vertex Alpha Research is for educational and informational purposes only and should not be construed as financial, investment, legal, or tax advice.<br><br>
-                All content, including research reports, analysis, and opinions, reflects the views of the authors at the time of publication and is subject to change without notice.<br><br>
-                We do not provide personalized investment advice or recommendations tailored to any individual’s financial situation. You should conduct your own research and consult with a licensed financial advisor before making any investment decisions.<br><br>
-                Investing in financial markets involves risk, including the potential loss of principal. Past performance is not indicative of future results.<br><br>
-                By using this website, you agree that Vertex Alpha Research is not responsible for any financial decisions you make based on the information provided.
             </div>
             <p class="copyright">&copy; 2026 Vertex Alpha Research. All rights reserved.</p>
         </div>
