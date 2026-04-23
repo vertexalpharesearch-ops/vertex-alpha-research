@@ -141,3 +141,37 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
     .dashboard-main { padding: 0 20px; }
     .welcome-banner { flex-direction: column; gap: 20px; text-align: center; }
 }
+
+/* --- GLOBAL LOADER --- */
+@keyframes logoReveal {
+    0% { opacity: 0; transform: scale(0.7); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes glowPulseGreen {
+    from { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); }
+    to { filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8)); }
+}
+
+#global-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark); /* Matches your site background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Keeps it on top of everything */
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader-logo {
+    width: 100px; /* Adjust this if your logo is too big/small */
+    height: auto;
+    opacity: 0;
+    /* Reveals the logo, then starts the green pulsing glow */
+    animation: logoReveal 1s ease forwards, glowPulseGreen 2s infinite alternate;
+    animation-delay: 0s, 1s; 
+}
