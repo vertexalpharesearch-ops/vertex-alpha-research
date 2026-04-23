@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dashboard-body">
+
+    <div id="global-loader">
+        <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
+    </div>
     
     <aside class="sidebar">
-        <div class="logo">Vertex Alpha Research</div>
+        <div class="logo">
+            <a href="index.html">Vertex Alpha Research</a>
+        </div>
         <nav class="sidebar-nav" id="filter-nav">
             <a href="#" class="active" data-category="All">Overview</a>
             <a href="#" data-category="Equities">Equities</a>
@@ -20,12 +26,18 @@
         <div class="sidebar-bottom">
             <a href="admin-publish.html" id="admin-link" style="display: none; color: var(--accent-green); font-weight: bold;">+ Publish Report</a>
             
+            <a href="index.html" style="color: var(--text-muted);">← Main Website</a>
+            
             <a href="settings.html">Account Settings</a>
             <a href="#">Sign Out</a>
         </div>
     </aside>
 
     <main class="dashboard-main">
+        <a href="index.html" class="dashboard-clickable-logo">
+            <img src="logo.png" alt="Vertex Alpha Research Logo">
+        </a>
+
         <header class="dashboard-header">
             <div class="search-bar">
                 <input type="text" placeholder="Search tickers, sectors, or reports...">
@@ -55,7 +67,6 @@
         import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         
-        // Your exact Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
             authDomain: "vertex-alpha-research.firebaseapp.com",
@@ -68,51 +79,41 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const auth = getAuth(app); // Initialize Auth
+        const auth = getAuth(app); 
         
-        // THE LOCK: Check if user is logged in
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // Kick them out to the login page if not logged in
                 window.location.href = "login.html"; 
             } else {
-                // If they are logged in, load the reports!
                 loadReports(); 
-                
-                // Update the UI with their email
                 document.querySelector('.user-profile').innerText = user.email;
 
-                // THE MAGIC: If it's the admin, unhide the publish button!
                 if (user.email === "vertexalpharesearch@gmail.com") {
                     document.getElementById('admin-link').style.display = 'block';
                 }
             }
         });
 
-        // Logout Button Logic
         document.querySelector('.sidebar-bottom a:last-child').addEventListener('click', (e) => {
             e.preventDefault();
             signOut(auth).then(() => window.location.href = "login.html");
         });
 
-        // Fetch and Render Reports
         async function loadReports() {
             const grid = document.getElementById('reports-grid');
             grid.innerHTML = '<p style="color: var(--text-muted);">Loading research from database...</p>';
 
             try {
-                // Query reports, newest first
                 const q = query(collection(db, "reports"), orderBy("publishDate", "desc"));
                 const querySnapshot = await getDocs(q);
                 
-                grid.innerHTML = ''; // Clear loading text
+                grid.innerHTML = ''; 
 
                 if (querySnapshot.empty) {
                     grid.innerHTML = '<p style="color: var(--text-muted);">No reports published yet.</p>';
                     return;
                 }
 
-                // Loop through database and build cards
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     
@@ -137,35 +138,39 @@
             }
         }
 
-        // --- SIDEBAR FILTERING LOGIC ---
         const filterLinks = document.querySelectorAll('#filter-nav a');
         
         filterLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault(); // Stop the '#' from jumping to the top of page
+                e.preventDefault(); 
                 
-                // Update active styling
                 filterLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                // Get the category we want to see (e.g., "Crypto", "Equities")
                 const selectedCategory = link.getAttribute('data-category');
                 const allCards = document.querySelectorAll('.report-card');
 
-                // Loop through all cards on the screen
                 allCards.forEach(card => {
                     const cardCategory = card.querySelector('.report-category').innerText;
                     
-                    // If "All" is selected, or the card's category matches the clicked link
                     if (selectedCategory === "All" || cardCategory === selectedCategory) {
-                        card.style.display = "block"; // Show it
+                        card.style.display = "block"; 
                     } else {
-                        card.style.display = "none";  // Hide it
+                        card.style.display = "none";  
                     }
                 });
             });
         });
+    </script>
 
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('global-loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 500); 
+        });
     </script>
 </body>
 </html>
