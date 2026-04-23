@@ -6,14 +6,12 @@
     <title>Admin Publisher | Vertex Alpha Research</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Extra styles just for the admin form */
         .admin-container { max-width: 600px; margin: 80px auto; padding: 40px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); }
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; }
         .form-group input[type="text"], .form-group select, .form-group textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-darker); color: white; }
         .form-group textarea { resize: vertical; height: 100px; }
-        .form-group input[type="file"] { width: 100%; padding: 10px; color: var(--text-muted); }
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .form-group input[type="file"] { width: 100%; padding: 10px; color: var(--text-muted); background: var(--bg-darker); border: 1px dashed var(--border-color); border-radius: 6px;}
         #status-message { margin-top: 20px; font-weight: bold; text-align: center; }
         .success { color: var(--accent-green); }
         .error { color: #ef4444; }
@@ -30,37 +28,37 @@
     <div class="container">
         <div class="admin-container">
             <h2>Publish New Report</h2>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Upload a PDF and push to the live database.</p>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Upload your free preview and the full premium PDF.</p>
             
             <form id="publish-form">
                 <div class="form-group">
                     <label>Report Title</label>
-                    <input type="text" id="title" placeholder="e.g., Kraken Liquidity Analysis" required>
+                    <input type="text" id="title" placeholder="e.g., Palantir (PLTR) Deep Dive" required>
                 </div>
 
                 <div class="form-group">
                     <label>Category</label>
                     <select id="category" required>
-                        <option value="Crypto">Crypto</option>
+                        <option value="Pre-IPO">Pre-IPO</option>
                         <option value="Equities">Equities</option>
+                        <option value="Crypto">Crypto Strategies</option>
                         <option value="Macro">Macro</option>
-                        <option value="Biotech">Biotech</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Summary</label>
-                    <textarea id="summary" placeholder="Brief description of the edge/strategy..." required></textarea>
+                    <label>Summary / Bullet Points</label>
+                    <textarea id="summary" placeholder="Investment Thesis • Financial Analysis • Risks..." required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Upload PDF Report</label>
-                    <input type="file" id="pdf-file" accept="application/pdf" required>
+                    <label>📄 Upload PREVIEW PDF (Free Users)</label>
+                    <input type="file" id="preview-pdf-file" accept="application/pdf" required>
                 </div>
 
-                <div class="checkbox-group">
-                    <input type="checkbox" id="is-premium" checked>
-                    <label for="is-premium">Premium Report (Requires Subscription)</label>
+                <div class="form-group">
+                    <label>🔒 Upload FULL PDF (Premium Users)</label>
+                    <input type="file" id="full-pdf-file" accept="application/pdf" required>
                 </div>
 
                 <button type="submit" class="btn-primary full-width" id="submit-btn">Upload & Publish</button>
@@ -74,10 +72,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
-        // ADDED AUTH IMPORTS:
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Your exact config
         const firebaseConfig = {
             apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
             authDomain: "vertex-alpha-research.firebaseapp.com",
@@ -92,28 +88,22 @@
         const storage = getStorage(app);
         const auth = getAuth(app);
 
-        // --- THE BOUNCER: HARDCODED ADMIN EMAIL ---
-        const ADMIN_EMAIL = "vertexalpharesearch@gmail.com"; // <-- PUT CLIENT'S EMAIL HERE
+        const ADMIN_EMAIL = "vertexalpharesearch@gmail.com"; 
 
-        // Hide the form by default until we prove they are the admin
         const formContainer = document.querySelector('.admin-container');
         formContainer.style.display = 'none';
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // Not logged in at all -> send to login
                 window.location.href = "login.html";
             } else if (user.email !== ADMIN_EMAIL) {
-                // Logged in, but NOT the admin -> send to dashboard
                 alert("Access Denied: Admin privileges required.");
                 window.location.href = "dashboard.html";
             } else {
-                // IT IS THE ADMIN! Show the form.
                 formContainer.style.display = 'block';
             }
         });
 
-        // --- THE UPLOAD LOGIC (Same as before) ---
         const form = document.getElementById('publish-form');
         const submitBtn = document.getElementById('submit-btn');
         const statusMsg = document.getElementById('status-message');
@@ -121,43 +111,52 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true;
-            submitBtn.innerText = "Uploading PDF...";
+            submitBtn.innerText = "Uploading PDFs (Do not close)...";
             statusMsg.innerText = "";
 
             try {
                 const title = document.getElementById('title').value;
                 const category = document.getElementById('category').value;
                 const summary = document.getElementById('summary').value;
-                const isPremium = document.getElementById('is-premium').checked;
-                const file = document.getElementById('pdf-file').files[0];
+                
+                // Get both files
+                const previewFile = document.getElementById('preview-pdf-file').files[0];
+                const fullFile = document.getElementById('full-pdf-file').files[0];
 
-                const fileName = `reports/${Date.now()}_${file.name}`;
-                const storageRef = ref(storage, fileName);
+                // Create unique names
+                const previewName = `reports/preview_${Date.now()}_${previewFile.name}`;
+                const fullName = `reports/full_${Date.now()}_${fullFile.name}`;
 
-                const snapshot = await uploadBytes(storageRef, file);
+                // Upload BOTH files at the same time
+                const [previewSnap, fullSnap] = await Promise.all([
+                    uploadBytes(ref(storage, previewName), previewFile),
+                    uploadBytes(ref(storage, fullName), fullFile)
+                ]);
+
                 submitBtn.innerText = "Saving to Database...";
 
-                const pdfUrl = await getDownloadURL(snapshot.ref);
+                // Get both download URLs
+                const previewPdfUrl = await getDownloadURL(previewSnap.ref);
+                const fullPdfUrl = await getDownloadURL(fullSnap.ref);
 
+                // Save to database
                 await addDoc(collection(db, "reports"), {
                     title: title,
                     category: category,
                     summary: summary,
                     publishDate: serverTimestamp(),
-                    pdfUrl: pdfUrl,
-                    isPremium: isPremium
+                    previewPdfUrl: previewPdfUrl,
+                    fullPdfUrl: fullPdfUrl
                 });
 
                 form.reset();
                 statusMsg.className = "success";
                 statusMsg.innerText = "Report published successfully!";
-                submitBtn.innerText = "Upload & Publish";
-                submitBtn.disabled = false;
-
             } catch (error) {
                 console.error("Error publishing report: ", error);
                 statusMsg.className = "error";
                 statusMsg.innerText = "Error: " + error.message;
+            } finally {
                 submitBtn.innerText = "Upload & Publish";
                 submitBtn.disabled = false;
             }
