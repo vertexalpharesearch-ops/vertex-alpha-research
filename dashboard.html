@@ -121,9 +121,11 @@
                             <div class="report-category">${data.category || 'Research'}</div>
                             <h4>${data.title || 'Untitled Report'}</h4>
                             <p>${data.summary || ''}</p>
-                            <a href="${data.pdfUrl || '#'}" target="_blank" class="download-link">
-                                ${data.isPremium ? '🔒 Premium PDF ↓' : 'Download PDF ↓'}
-                            </a>
+                            
+                            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                <a href="${data.previewPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--text-muted); font-weight: normal;">📄 Read Free Preview</a>
+                                <a href="${data.fullPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--accent-green);">🔒 Download Full Report</a>
+                            </div>
                         </div>
                     `;
                     grid.innerHTML += cardHTML;
