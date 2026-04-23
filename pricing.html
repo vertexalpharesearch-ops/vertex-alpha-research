@@ -12,11 +12,12 @@
             <div class="logo">Vertex Alpha Research</div>
             <nav>
                 <a href="index.html">Home</a>
-                <a href="pricing.html">Pricing</a>
+                <a href="pricing.html" class="active">Pricing</a>
+                <a href="about.html">About</a>
                 <a href="dashboard.html">Dashboard</a>
             </nav>
             <div class="nav-buttons">
-                <a href="#" class="btn-secondary">Login</a>
+                <a href="login.html" class="btn-secondary">Login</a>
             </div>
         </div>
     </header>
@@ -24,7 +25,7 @@
     <section class="pricing-section">
         <div class="container text-center">
             <h1>Simple pricing for serious investors.</h1>
-            <p>Choose the edge that fits your trading style. Cancel anytime.</p>
+            <p>Choose the edge that fits your investing style. Cancel anytime.</p>
             
             <div class="billing-toggle">
                 <span id="monthly-label" class="active">Monthly</span>
@@ -37,42 +38,40 @@
 
             <div class="grid-3 pricing-cards">
                 <div class="price-card">
-                    <h3>Free Tier</h3>
+                    <h3>Basic</h3>
                     <div class="price">$0<span>/mo</span></div>
                     <ul class="features-list">
-                        <li>Weekly Market Recap Newsletter</li>
-                        <li>1 Free Sample Report</li>
+                        <li>1–2 Sample Reports</li>
+                        <li>Limited Market Insights</li>
                         <li class="disabled">Full Research Archive</li>
-                        <li class="disabled">Live Code Snippets</li>
+                        <li class="disabled">Telegram Channel</li>
                     </ul>
-                    <button class="btn-secondary full-width">Join Free</button>
+                    <button class="btn-secondary full-width" onclick="window.location.href='login.html'">Join Free</button>
                 </div>
 
                 <div class="price-card featured">
                     <div class="popular-badge">Most Popular</div>
-                    <h3>Pro Edge</h3>
+                    <h3>Premium</h3>
                     <div class="price" id="pro-price">$49<span>/mo</span></div>
                     <ul class="features-list">
-                        <li>All Premium Research Reports</li>
-                        <li>Automated Crypto Strategy Breakdowns</li>
-                        <li>Full Research Archive Access</li>
-                        <li class="disabled">1-on-1 Q&A</li>
+                        <li>Full Research Reports</li>
+                        <li>Past Reports Archive Access</li>
+                        <li>Exclusive Telegram Channel</li>
+                        <li class="disabled">Pre-IPO Research</li>
                     </ul>
-                    <button class="btn-primary full-width">Subscribe Pro</button>
+                    <button class="btn-primary full-width" onclick="window.location.href='login.html'">Join Premium</button>
                 </div>
 
                 <div class="price-card">
-                    <h3>Institutional</h3>
+                    <h3>Ultra Premium</h3>
                     <div class="price" id="premium-price">$199<span>/mo</span></div>
                     <ul class="features-list">
-                        <li>Everything in Pro</li>
-                        <li>Direct API / Webhook Alerts</li>
-                        <li>Raw Data CSV Downloads</li>
+                        <li>Pre-IPO Research</li>
+                        <li>Early Access to Reports</li>
+                        <li>Priority Updates</li>
                         <li>Direct Q&A Access</li>
                     </ul>
-                    <button class="btn-secondary full-width" onclick="window.location.href='login.html'">Join Free</button>
-                    <button class="btn-primary full-width" onclick="window.location.href='login.html'">Subscribe Pro</button>
-                    <button class="btn-secondary full-width" onclick="window.location.href='login.html'">Subscribe Premium</button>
+                    <button class="btn-secondary full-width" onclick="window.location.href='login.html'">Join Ultra Premium</button>
                 </div>
             </div>
         </div>
