@@ -10,12 +10,12 @@
     
     <aside class="sidebar">
         <div class="logo">Vertex Alpha Research</div>
-        <nav class="sidebar-nav">
-            <a href="#" class="active">Overview</a>
-            <a href="#">Latest Reports</a>
-            <a href="#">Equities</a>
-            <a href="#">Crypto Strategies</a>
-            <a href="#">Saved Items</a>
+        <nav class="sidebar-nav" id="filter-nav">
+            <a href="#" class="active" data-category="All">Overview</a>
+            <a href="#" data-category="Equities">Equities</a>
+            <a href="#" data-category="Crypto">Crypto Strategies</a>
+            <a href="#" data-category="Macro">Macro</a>
+            <a href="#" data-category="Biotech">Biotech</a>
         </nav>
         <div class="sidebar-bottom">
             <a href="admin-publish.html" id="admin-link" style="display: none; color: var(--accent-green); font-weight: bold;">+ Publish Report</a>
@@ -54,6 +54,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        
         // Your exact Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
@@ -68,6 +69,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app); // Initialize Auth
+        
         // THE LOCK: Check if user is logged in
         onAuthStateChanged(auth, (user) => {
             if (!user) {
@@ -132,6 +134,35 @@
                 grid.innerHTML = '<p style="color: #ef4444;">Failed to load data. Please check console.</p>';
             }
         }
+
+        // --- SIDEBAR FILTERING LOGIC ---
+        const filterLinks = document.querySelectorAll('#filter-nav a');
+        
+        filterLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); // Stop the '#' from jumping to the top of page
+                
+                // Update active styling
+                filterLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Get the category we want to see (e.g., "Crypto", "Equities")
+                const selectedCategory = link.getAttribute('data-category');
+                const allCards = document.querySelectorAll('.report-card');
+
+                // Loop through all cards on the screen
+                allCards.forEach(card => {
+                    const cardCategory = card.querySelector('.report-category').innerText;
+                    
+                    // If "All" is selected, or the card's category matches the clicked link
+                    if (selectedCategory === "All" || cardCategory === selectedCategory) {
+                        card.style.display = "block"; // Show it
+                    } else {
+                        card.style.display = "none";  // Hide it
+                    }
+                });
+            });
+        });
 
     </script>
 </body>
