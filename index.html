@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="global-loader">
+        <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
+    </div>
     <header>
         <div class="container nav-container">
             <div class="logo">Vertex Alpha Research</div>
@@ -122,5 +125,18 @@
             <p class="copyright">&copy; 2026 Vertex Alpha Research. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Wait for the window to load, then fade out the loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('global-loader');
+            // Adding a small 500ms delay so the animation can breathe
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 500); 
+        });
+    </script>
+    
 </body>
 </html>
