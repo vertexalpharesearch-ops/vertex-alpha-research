@@ -28,6 +28,39 @@ a { text-decoration: none; color: inherit; }
 .text-center { text-align: center; }
 .bg-darker { background-color: var(--bg-darker); }
 
+/* --- GLOBAL LOADER --- */
+@keyframes logoReveal {
+    0% { opacity: 0; transform: scale(0.7); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes glowPulseGreen {
+    from { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); }
+    to { filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8)); }
+}
+
+#global-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader-logo {
+    width: 100px;
+    height: auto;
+    opacity: 0;
+    animation: logoReveal 1s ease forwards, glowPulseGreen 2s infinite alternate;
+    animation-delay: 0s, 1s; 
+}
+
 /* Buttons */
 .btn-primary {
     background-color: var(--accent-green);
@@ -54,10 +87,31 @@ a { text-decoration: none; color: inherit; }
 .btn-secondary:hover { border-color: var(--accent-green); }
 .full-width { width: 100%; margin-top: 20px; }
 
-/* Navigation */
+/* Navigation & Logo */
 header { border-bottom: 1px solid var(--border-color); padding: 20px 0; }
 .nav-container { display: flex; justify-content: space-between; align-items: center; }
-.logo { font-size: 1.5rem; font-weight: bold; color: var(--accent-green); }
+
+/* Updated Logo Styling */
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--accent-green);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+.logo a:hover {
+    transform: scale(1.02);
+}
+.logo a img {
+    height: 35px;
+    width: auto;
+}
+
 nav a { margin: 0 15px; color: var(--text-muted); font-weight: 500; }
 nav a:hover { color: var(--text-main); }
 
@@ -140,38 +194,4 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
     .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); }
     .dashboard-main { padding: 0 20px; }
     .welcome-banner { flex-direction: column; gap: 20px; text-align: center; }
-}
-
-/* --- GLOBAL LOADER --- */
-@keyframes logoReveal {
-    0% { opacity: 0; transform: scale(0.7); filter: blur(10px); }
-    100% { opacity: 1; transform: scale(1); filter: blur(0); }
-}
-
-@keyframes glowPulseGreen {
-    from { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); }
-    to { filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.8)); }
-}
-
-#global-loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-dark); /* Matches your site background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999; /* Keeps it on top of everything */
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-
-.loader-logo {
-    width: 100px; /* Adjust this if your logo is too big/small */
-    height: auto;
-    opacity: 0;
-    /* Reveals the logo, then starts the green pulsing glow */
-    animation: logoReveal 1s ease forwards, glowPulseGreen 2s infinite alternate;
-    animation-delay: 0s, 1s; 
 }
