@@ -18,6 +18,8 @@
             <a href="#">Saved Items</a>
         </nav>
         <div class="sidebar-bottom">
+            <a href="admin-publish.html" id="admin-link" style="display: none; color: var(--accent-green); font-weight: bold;">+ Publish Report</a>
+            
             <a href="#">Account Settings</a>
             <a href="#">Sign Out</a>
         </div>
@@ -77,6 +79,11 @@
                 
                 // Update the UI with their email
                 document.querySelector('.user-profile').innerText = user.email;
+
+                // THE MAGIC: If it's the admin, unhide the publish button!
+                if (user.email === "vertexalpharesearch@gmail.com") {
+                    document.getElementById('admin-link').style.display = 'block';
+                }
             }
         });
 
