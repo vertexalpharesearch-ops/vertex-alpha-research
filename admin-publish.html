@@ -18,9 +18,18 @@
     </style>
 </head>
 <body>
+    <div id="global-loader">
+        <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
+    </div>
+
     <header>
         <div class="container nav-container">
-            <div class="logo">Vertex Alpha Research <span class="tag">ADMIN</span></div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Vertex Alpha Icon">
+                    Vertex Alpha Research <span class="tag" style="margin-bottom: 0; margin-left: 8px;">ADMIN</span>
+                </a>
+            </div>
             <nav><a href="dashboard.html">Back to Dashboard</a></nav>
         </div>
     </header>
@@ -162,5 +171,16 @@
             }
         });
     </script>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('global-loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 500); 
+        });
+    </script>
+        
 </body>
 </html>
