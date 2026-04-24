@@ -186,39 +186,54 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    /* Existing rules */
+    /* General Mobile Fixes */
     .hero-content { flex-direction: column; text-align: center; }
     .hero-cta { flex-direction: column; align-items: center; }
     .email-input { width: 100%; }
     .nav-buttons { display: none; }
+    
+    /* Main Website Header Fixes */
+    .nav-container { flex-direction: column; gap: 15px; }
+    .logo { font-size: 1.2rem; }
+    .logo a { justify-content: center; }
+    nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    nav a { margin: 0 8px; font-size: 0.95rem; }
+
+    /* Dashboard Mobile Overhaul */
     .dashboard-body { flex-direction: column; overflow: auto; }
-    .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); }
     .dashboard-main { padding: 0 20px; }
     .welcome-banner { flex-direction: column; gap: 20px; text-align: center; }
+    
+    /* 1. Transform Sidebar into a horizontal swiping tab bar */
+    .sidebar { width: 100%; height: auto; border-right: none; padding: 15px 20px; border-bottom: 1px solid var(--border-color); }
+    .sidebar-nav { 
+        flex-direction: row; 
+        overflow-x: auto; 
+        white-space: nowrap; 
+        margin-top: 15px; 
+        padding-bottom: 15px; 
+        -webkit-overflow-scrolling: touch; /* Smooth swiping on iPhones */
+        border-bottom: 1px solid var(--border-color); 
+    }
+    .sidebar-nav::-webkit-scrollbar { display: none; } /* Hides ugly scrollbars */
+    
+    /* 2. Group the bottom links horizontally */
+    .sidebar-bottom { 
+        flex-direction: row; 
+        flex-wrap: wrap; 
+        justify-content: space-between; 
+        padding-top: 15px; 
+        border-top: none; 
+    }
+    .sidebar-bottom a { font-size: 0.85rem; }
 
-    /* --- NEW: Header Mobile Fixes --- */
-    .nav-container { 
-        flex-direction: column; /* Stacks logo on top of links */
-        gap: 15px; /* Adds breathing room between logo and links */
+    /* 3. Fix the Dashboard Header (Search Bar & Profile) */
+    .dashboard-header { 
+        flex-direction: column-reverse; /* Puts search bar below the email */
+        gap: 15px; 
+        align-items: stretch; 
+        padding: 20px 0; 
     }
-    
-    .logo { 
-        font-size: 1.2rem; /* Shrinks the text slightly so it fits on one line */
-    }
-    
-    .logo a { 
-        justify-content: center; /* Centers the icon and text together */
-    }
-    
-    nav {
-        display: flex;
-        flex-wrap: wrap; /* Allows links to drop to a new line cleanly if needed */
-        justify-content: center;
-        gap: 10px;
-    }
-    
-    nav a { 
-        margin: 0 8px; /* Reduces the wide desktop margins */
-        font-size: 0.95rem; 
-    }
+    .search-bar input { width: 100%; } /* Makes search bar take full width */
+    .user-profile { align-self: flex-end; font-size: 0.85rem; }
 }
