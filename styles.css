@@ -185,6 +185,12 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
 .copyright { text-align: center; color: var(--text-muted); font-size: 0.9rem; }
 
 
+/* --- Hamburger Menu Base Styles --- */
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.hamburger-btn { display: none; background: none; border: none; color: var(--text-main); font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
+.hamburger-btn:hover { color: var(--accent-green); }
+.mobile-email { display: none; }
+
 /* --- THE CORRECT MOBILE OVERHAUL --- */
 @media (max-width: 768px) {
     /* Main Website Header Fixes */
@@ -205,45 +211,67 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
     .dashboard-main { padding: 0 20px; }
     .welcome-banner { flex-direction: column; gap: 20px; text-align: center; }
     
-    /* Transforms Sidebar into a horizontal swiping tab bar */
-    .sidebar { width: 100%; height: auto; border-right: none; padding: 15px 0; border-bottom: 1px solid var(--border-color); }
-    .sidebar .logo a { justify-content: center; } /* Centers the logo */
+    .sidebar { width: 100%; height: auto; border-right: none; padding: 15px 0; border-bottom: 1px solid var(--border-color); position: relative; }
     
-    .sidebar-nav { 
-        display: flex;
-        flex-direction: row; 
-        flex-wrap: nowrap; /* MAGIC FIX 1: Forces a single line */
-        overflow-x: auto;  /* Enables horizontal scrolling */
+    /* Hamburger Header Layout */
+    .sidebar-header { padding: 0 20px; }
+    .sidebar-header .logo a { justify-content: flex-start; }
+    .hamburger-btn { display: block; } /* Shows the icon on mobile */
+    
+    /* The Swipe Bar */
+    nav.sidebar-nav { 
+        display: flex !important;
+        flex-direction: row !important; 
+        flex-wrap: nowrap !important; 
+        justify-content: flex-start !important; 
+        overflow-x: auto !important;  
+        white-space: nowrap !important; 
         -webkit-overflow-scrolling: touch; 
         margin-top: 15px; 
         padding: 0 20px 15px 20px; 
         border-bottom: 1px solid var(--border-color); 
-        gap: 10px;
+        gap: 15px !important;
     }
+    nav.sidebar-nav a { flex: 0 0 auto !important; display: inline-block !important; }
+    nav.sidebar-nav::-webkit-scrollbar { display: none; } 
     
-    .sidebar-nav a {
-        flex-shrink: 0; /* MAGIC FIX 2: Stops the buttons from squishing */
-    }
-    
-    .sidebar-nav::-webkit-scrollbar { display: none; } 
-    
-    /* Groups the bottom links horizontally */
+    /* --- THE NEW HAMBURGER DROPDOWN --- */
     .sidebar-bottom { 
-        flex-direction: row; 
-        flex-wrap: wrap; 
-        justify-content: center; /* Centers the links evenly */
-        gap: 20px; 
-        padding-top: 15px; 
-        border-top: none; 
-    }
-    .sidebar-bottom a { font-size: 0.85rem; }
-
-    /* Fix the Dashboard Header (Search Bar & Profile) */
-    .dashboard-header { 
-        flex-direction: column-reverse; 
+        display: none; /* Hidden until clicked */
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--bg-card);
+        flex-direction: column; 
+        justify-content: flex-start;
         gap: 15px; 
-        align-items: stretch; 
-        padding: 20px 0; 
+        padding: 20px; 
+        border: 1px solid var(--border-color); 
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        z-index: 1000;
+        min-width: 200px;
     }
-    .search-bar input { width: 100%; } 
-    .user-profile { align-self: flex-end; font-size: 0.85rem; }
+    
+    /* This class is added by Javascript when the button is clicked */
+    .sidebar-bottom.show { display: flex; }
+    
+    .sidebar-bottom a { font-size: 0.95rem; }
+    
+    /* Moves the user email into the dropdown */
+    .mobile-email {
+        display: block;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 12px;
+        margin-bottom: 5px;
+        word-break: break-all;
+    }
+    
+    /* Hides the duplicate email from the main header */
+    .dashboard-header .user-profile { display: none; }
+
+    /* Fix the Dashboard Header (Search Bar) */
+    .dashboard-header { flex-direction: column; padding: 20px 0; }
+    .search-bar input { width: 100%; }
