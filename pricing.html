@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="global-loader">
+        <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
+    </div>
+
     <header>
         <div class="container nav-container">
-            <div class="logo">Vertex Alpha Research</div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Vertex Alpha Icon">
+                    Vertex Alpha Research
+                </a>
+            </div>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="pricing.html" class="active">Pricing</a>
@@ -52,7 +61,7 @@
                 <div class="price-card featured">
                     <div class="popular-badge">Most Popular</div>
                     <h3>Premium</h3>
-                    <div class="price" id="pro-price">$49<span>/mo</span></div>
+                    <div class="price" id="pro-price">$20<span>/mo</span></div>
                     <ul class="features-list">
                         <li>Full Research Reports</li>
                         <li>Past Reports Archive Access</li>
@@ -64,7 +73,7 @@
 
                 <div class="price-card">
                     <h3>Ultra Premium</h3>
-                    <div class="price" id="premium-price">$199<span>/mo</span></div>
+                    <div class="price" id="premium-price">$50<span>/mo</span></div>
                     <ul class="features-list">
                         <li>Pre-IPO Research</li>
                         <li>Early Access to Reports</li>
@@ -78,5 +87,15 @@
     </section>
 
     <script src="script.js"></script>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('global-loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 500); 
+        });
+    </script>
 </body>
 </html>
