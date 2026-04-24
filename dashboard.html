@@ -128,10 +128,9 @@
                     return;
                 }
 
-                // Convert Firebase snapshot to a standard array we can easily slice
                 const allDocs = querySnapshot.docs;
 
-                // --- 1. POPULATE THE NEW RELEASE BANNER (Index 0) ---
+                // --- 1. SPOTLIGHT THE NEWEST REPORT IN BANNER ---
                 const latestData = allDocs[0].data();
                 
                 document.getElementById('featured-title').innerText = latestData.title || 'Untitled Report';
@@ -141,28 +140,24 @@
                 // Show the banner now that data is loaded
                 banner.style.display = 'flex'; 
 
-                // --- 2. POPULATE THE GRID WITH THE REST (Index 1 and beyond) ---
-                if (allDocs.length > 1) {
-                    for (let i = 1; i < allDocs.length; i++) {
-                        const data = allDocs[i].data();
-                        const cardHTML = `
-                            <div class="report-card">
-                                <div class="report-category">${data.category || 'Research'}</div>
-                                <h4>${data.title || 'Untitled Report'}</h4>
-                                <p>${data.summary || ''}</p>
-                                
-                                <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
-                                    <a href="${data.previewPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--text-muted); font-weight: normal;">📄 Read Free Preview</a>
-                                    <a href="${data.fullPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--accent-green);">🔒 Download Full Report</a>
-                                </div>
+                // --- 2. POPULATE THE MASTER GRID WITH ALL REPORTS ---
+                // We use forEach so it automatically includes every report (even the newest one)
+                allDocs.forEach((doc) => {
+                    const data = doc.data();
+                    const cardHTML = `
+                        <div class="report-card">
+                            <div class="report-category">${data.category || 'Research'}</div>
+                            <h4>${data.title || 'Untitled Report'}</h4>
+                            <p>${data.summary || ''}</p>
+                            
+                            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                <a href="${data.previewPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--text-muted); font-weight: normal;">📄 Read Free Preview</a>
+                                <a href="${data.fullPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--accent-green);">🔒 Download Full Report</a>
                             </div>
-                        `;
-                        grid.innerHTML += cardHTML;
-                    }
-                } else {
-                    // If there is only exactly 1 report, it goes in the banner, so the grid is empty
-                    grid.innerHTML = '<p style="color: var(--text-muted);">No older reports available.</p>';
-                }
+                        </div>
+                    `;
+                    grid.innerHTML += cardHTML;
+                });
 
             } catch (error) {
                 console.error("Error loading reports:", error);
@@ -170,6 +165,8 @@
             }
         }
         
+
+                
         // --- UPDATED, BULLETPROOF SIDEBAR FILTERING LOGIC ---
         const filterLinks = document.querySelectorAll('#filter-nav a');
         
