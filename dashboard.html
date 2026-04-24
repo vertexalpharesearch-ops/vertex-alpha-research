@@ -13,12 +13,16 @@
     </div>
     
     <aside class="sidebar">
-        <div class="logo">
-            <a href="index.html">
-                <img src="logo.png" alt="Vertex Alpha Icon">
-                Vertex Alpha Research
-            </a>
+        <div class="sidebar-header">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Vertex Alpha Icon">
+                    Vertex Alpha Research
+                </a>
+            </div>
+            <button id="mobile-menu-btn" class="hamburger-btn">☰</button>
         </div>
+
         <nav class="sidebar-nav" id="filter-nav">
             <a href="#" class="active" data-category="All">Overview</a>
             <a href="#" data-category="Equities">Equities</a>
@@ -26,13 +30,14 @@
             <a href="#" data-category="Macro">Macro</a>
             <a href="#" data-category="Biotech">Biotech</a>
         </nav>
-        <div class="sidebar-bottom">
+
+        <div class="sidebar-bottom" id="mobile-dropdown">
+            <span class="mobile-email" id="dropdown-email"></span>
+
             <a href="admin-publish.html" id="admin-link" style="display: none; color: var(--accent-green); font-weight: bold;">+ Publish Report</a>
-            
             <a href="index.html" style="color: var(--text-muted);">← Main Website</a>
-            
             <a href="settings.html">Account Settings</a>
-            <a href="#">Sign Out</a>
+            <a href="#" id="sidebar-signout">Sign Out</a>
         </div>
     </aside>
 
@@ -41,7 +46,7 @@
             <div class="search-bar">
                 <input type="text" placeholder="Search tickers, sectors, or reports...">
             </div>
-            <div class="user-profile">Member Profile</div>
+            <div class="user-profile" id="desktop-email">Member Profile</div>
         </header>
 
         <section class="welcome-banner">
@@ -80,12 +85,20 @@
         const db = getFirestore(app);
         const auth = getAuth(app); 
         
+        // --- Hamburger Menu Logic ---
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-dropdown').classList.toggle('show');
+        });
+
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html"; 
             } else {
                 loadReports(); 
-                document.querySelector('.user-profile').innerText = user.email;
+                
+                // Populate both the desktop and mobile email displays
+                document.getElementById('desktop-email').innerText = user.email;
+                document.getElementById('dropdown-email').innerText = user.email;
 
                 if (user.email === "vertexalpharesearch@gmail.com") {
                     document.getElementById('admin-link').style.display = 'block';
@@ -93,7 +106,7 @@
             }
         });
 
-        document.querySelector('.sidebar-bottom a:last-child').addEventListener('click', (e) => {
+        document.getElementById('sidebar-signout').addEventListener('click', (e) => {
             e.preventDefault();
             signOut(auth).then(() => window.location.href = "login.html");
         });
@@ -115,7 +128,6 @@
 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    
                     const cardHTML = `
                         <div class="report-card">
                             <div class="report-category">${data.category || 'Research'}</div>
