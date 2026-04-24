@@ -33,7 +33,6 @@
 
         <div class="sidebar-bottom" id="mobile-dropdown">
             <span class="mobile-email" id="dropdown-email"></span>
-
             <a href="admin-publish.html" id="admin-link" style="display: none; color: var(--accent-green); font-weight: bold;">+ Publish Report</a>
             <a href="index.html" style="color: var(--text-muted);">← Main Website</a>
             <a href="settings.html">Account Settings</a>
@@ -96,7 +95,6 @@
             } else {
                 loadReports(); 
                 
-                // Populate both the desktop and mobile email displays
                 document.getElementById('desktop-email').innerText = user.email;
                 document.getElementById('dropdown-email').innerText = user.email;
 
@@ -149,6 +147,7 @@
             }
         }
 
+        // --- UPDATED, BULLETPROOF SIDEBAR FILTERING LOGIC ---
         const filterLinks = document.querySelectorAll('#filter-nav a');
         
         filterLinks.forEach(link => {
@@ -158,13 +157,15 @@
                 filterLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                const selectedCategory = link.getAttribute('data-category');
+                // Get category and force it to lowercase
+                const selectedCategory = link.getAttribute('data-category').toLowerCase();
                 const allCards = document.querySelectorAll('.report-card');
 
                 allCards.forEach(card => {
-                    const cardCategory = card.querySelector('.report-category').innerText;
+                    // Get text, force to lowercase, and trim whitespace
+                    const cardCategory = card.querySelector('.report-category').textContent.toLowerCase().trim();
                     
-                    if (selectedCategory === "All" || cardCategory === selectedCategory) {
+                    if (selectedCategory === "all" || cardCategory.includes(selectedCategory)) {
                         card.style.display = "block"; 
                     } else {
                         card.style.display = "none";  
