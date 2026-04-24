@@ -199,31 +199,40 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
     nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
     nav a { margin: 0 8px; font-size: 0.95rem; }
 
-    /* Dashboard Mobile Overhaul */
+
+/* Dashboard Mobile Overhaul */
     .dashboard-body { flex-direction: column; overflow: auto; }
     .dashboard-main { padding: 0 20px; }
     .welcome-banner { flex-direction: column; gap: 20px; text-align: center; }
     
     /* Transforms Sidebar into a horizontal swiping tab bar */
-    .sidebar { width: 100%; height: auto; border-right: none; padding: 15px 20px; border-bottom: 1px solid var(--border-color); }
-    .sidebar .logo a { justify-content: flex-start; } /* Keeps dashboard logo aligned left */
+    .sidebar { width: 100%; height: auto; border-right: none; padding: 15px 0; border-bottom: 1px solid var(--border-color); }
+    .sidebar .logo a { justify-content: center; } /* Centers the logo */
     
     .sidebar-nav { 
+        display: flex;
         flex-direction: row; 
-        overflow-x: auto; 
-        white-space: nowrap; 
-        margin-top: 15px; 
-        padding-bottom: 15px; 
+        flex-wrap: nowrap; /* MAGIC FIX 1: Forces a single line */
+        overflow-x: auto;  /* Enables horizontal scrolling */
         -webkit-overflow-scrolling: touch; 
+        margin-top: 15px; 
+        padding: 0 20px 15px 20px; 
         border-bottom: 1px solid var(--border-color); 
+        gap: 10px;
     }
+    
+    .sidebar-nav a {
+        flex-shrink: 0; /* MAGIC FIX 2: Stops the buttons from squishing */
+    }
+    
     .sidebar-nav::-webkit-scrollbar { display: none; } 
     
     /* Groups the bottom links horizontally */
     .sidebar-bottom { 
         flex-direction: row; 
         flex-wrap: wrap; 
-        justify-content: space-between; 
+        justify-content: center; /* Centers the links evenly */
+        gap: 20px; 
         padding-top: 15px; 
         border-top: none; 
     }
@@ -238,4 +247,3 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
     }
     .search-bar input { width: 100%; } 
     .user-profile { align-self: flex-end; font-size: 0.85rem; }
-}
