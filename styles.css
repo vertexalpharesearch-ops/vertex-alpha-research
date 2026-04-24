@@ -186,6 +186,7 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+    /* Existing rules */
     .hero-content { flex-direction: column; text-align: center; }
     .hero-cta { flex-direction: column; align-items: center; }
     .email-input { width: 100%; }
@@ -194,4 +195,30 @@ footer { background: var(--bg-darker); border-top: 1px solid var(--border-color)
     .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); }
     .dashboard-main { padding: 0 20px; }
     .welcome-banner { flex-direction: column; gap: 20px; text-align: center; }
+
+    /* --- NEW: Header Mobile Fixes --- */
+    .nav-container { 
+        flex-direction: column; /* Stacks logo on top of links */
+        gap: 15px; /* Adds breathing room between logo and links */
+    }
+    
+    .logo { 
+        font-size: 1.2rem; /* Shrinks the text slightly so it fits on one line */
+    }
+    
+    .logo a { 
+        justify-content: center; /* Centers the icon and text together */
+    }
+    
+    nav {
+        display: flex;
+        flex-wrap: wrap; /* Allows links to drop to a new line cleanly if needed */
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    nav a { 
+        margin: 0 8px; /* Reduces the wide desktop margins */
+        font-size: 0.95rem; 
+    }
 }
