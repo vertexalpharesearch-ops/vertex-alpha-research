@@ -48,13 +48,13 @@
             <div class="user-profile" id="desktop-email">Member Profile</div>
         </header>
 
-        <section class="welcome-banner">
+        <section class="welcome-banner" id="featured-banner" style="display: none;">
             <div>
                 <span class="tag">New Release</span>
-                <h2>Integrating Alpaca API for Micro-Cap Momentum</h2>
-                <p>Published April 21, 2026 • 15 min read</p>
+                <h2 id="featured-title">Loading Latest Report...</h2>
+                <p id="featured-meta">Please wait...</p>
             </div>
-            <button class="btn-primary">Read Full Report</button>
+            <a href="#" id="featured-btn" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">Read Full Report</a>
         </section>
 
         <section class="recent-uploads">
@@ -111,42 +111,65 @@
 
         async function loadReports() {
             const grid = document.getElementById('reports-grid');
+            const banner = document.getElementById('featured-banner');
             grid.innerHTML = '<p style="color: var(--text-muted);">Loading research from database...</p>';
 
             try {
+                // Fetch reports ordered by newest first
                 const q = query(collection(db, "reports"), orderBy("publishDate", "desc"));
                 const querySnapshot = await getDocs(q);
                 
                 grid.innerHTML = ''; 
 
+                // If database is totally empty
                 if (querySnapshot.empty) {
                     grid.innerHTML = '<p style="color: var(--text-muted);">No reports published yet.</p>';
+                    banner.style.display = 'none'; 
                     return;
                 }
 
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const cardHTML = `
-                        <div class="report-card">
-                            <div class="report-category">${data.category || 'Research'}</div>
-                            <h4>${data.title || 'Untitled Report'}</h4>
-                            <p>${data.summary || ''}</p>
-                            
-                            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
-                                <a href="${data.previewPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--text-muted); font-weight: normal;">📄 Read Free Preview</a>
-                                <a href="${data.fullPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--accent-green);">🔒 Download Full Report</a>
+                // Convert Firebase snapshot to a standard array we can easily slice
+                const allDocs = querySnapshot.docs;
+
+                // --- 1. POPULATE THE NEW RELEASE BANNER (Index 0) ---
+                const latestData = allDocs[0].data();
+                
+                document.getElementById('featured-title').innerText = latestData.title || 'Untitled Report';
+                document.getElementById('featured-meta').innerText = `${latestData.category || 'Research'} • Newly Published`;
+                document.getElementById('featured-btn').href = latestData.fullPdfUrl || '#';
+                
+                // Show the banner now that data is loaded
+                banner.style.display = 'flex'; 
+
+                // --- 2. POPULATE THE GRID WITH THE REST (Index 1 and beyond) ---
+                if (allDocs.length > 1) {
+                    for (let i = 1; i < allDocs.length; i++) {
+                        const data = allDocs[i].data();
+                        const cardHTML = `
+                            <div class="report-card">
+                                <div class="report-category">${data.category || 'Research'}</div>
+                                <h4>${data.title || 'Untitled Report'}</h4>
+                                <p>${data.summary || ''}</p>
+                                
+                                <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                    <a href="${data.previewPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--text-muted); font-weight: normal;">📄 Read Free Preview</a>
+                                    <a href="${data.fullPdfUrl || '#'}" target="_blank" class="download-link" style="color: var(--accent-green);">🔒 Download Full Report</a>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                    grid.innerHTML += cardHTML;
-                });
+                        `;
+                        grid.innerHTML += cardHTML;
+                    }
+                } else {
+                    // If there is only exactly 1 report, it goes in the banner, so the grid is empty
+                    grid.innerHTML = '<p style="color: var(--text-muted);">No older reports available.</p>';
+                }
 
             } catch (error) {
                 console.error("Error loading reports:", error);
                 grid.innerHTML = '<p style="color: #ef4444;">Failed to load data. Please check console.</p>';
             }
         }
-
+        
         // --- UPDATED, BULLETPROOF SIDEBAR FILTERING LOGIC ---
         const filterLinks = document.querySelectorAll('#filter-nav a');
         
