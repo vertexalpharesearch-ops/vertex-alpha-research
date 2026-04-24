@@ -12,14 +12,28 @@
     </style>
 </head>
 <body>
+    <div id="global-loader">
+        <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
+    </div>
+
     <header>
         <div class="container nav-container">
-            <div class="logo">Vertex Alpha Research</div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Vertex Alpha Icon">
+                    Vertex Alpha Research
+                </a>
+            </div>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="pricing.html">Pricing</a>
+                <a href="about.html">About</a>
                 <a href="dashboard.html">Dashboard</a>
             </nav>
+            <div class="nav-buttons">
+                <a href="login.html" class="btn-secondary">Login</a>
+                <a href="pricing.html" class="btn-primary">Join Premium</a>
+            </div>
         </div>
     </header>
 
@@ -36,5 +50,15 @@
         
         <p>By accessing and using this website, you agree that Vertex Alpha Research and its analysts are not responsible or liable for any financial decisions or losses you incur based on the information provided.</p>
     </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('global-loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 500); 
+        });
+    </script>
 </body>
 </html>
