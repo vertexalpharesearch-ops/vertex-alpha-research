@@ -83,9 +83,9 @@
             
             <div class="mockup-box" style="max-width: 700px; margin: 0 auto; text-align: left;">
                 <span class="tag">Free Sample</span>
-                <h3 style="margin: 15px 0;">Palantir (PLTR) – Deep Research Report</h3>
-                <p style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">Investment Thesis • Financial Analysis • Growth Drivers • Risks</p>
-                <a href="#" class="btn-secondary">Download PDF Preview ↓</a>
+                <h3 id="home-sample-title" style="margin: 15px 0;">Palantir (PLTR) – Deep Research Report</h3>
+                <p id="home-sample-meta" style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">Investment Thesis • Financial Analysis • Growth Drivers • Risks</p>
+                <a href="#" id="home-sample-btn" target="_blank" class="btn-secondary">Download PDF Preview ↓</a>
             </div>
         </div>
     </section>
@@ -141,6 +141,44 @@
                 loader.style.visibility = 'hidden';
             }, 500); 
         });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
+            authDomain: "vertex-alpha-research.firebaseapp.com",
+            projectId: "vertex-alpha-research",
+            storageBucket: "vertex-alpha-research.firebasestorage.app",
+            messagingSenderId: "992971890985",
+            appId: "1:992971890985:web:1dec88b6a69a5812e61738"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadHomepageSample() {
+            try {
+                // Look for the special settings document Swarnam saves
+                const docRef = doc(db, "settings", "homepage_featured");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Inject the live data into the HTML
+                    document.getElementById('home-sample-title').innerText = data.title || "Featured Deep Dive";
+                    document.getElementById('home-sample-meta').innerText = data.meta || "Growth Drivers • Financials • Verdict";
+                    document.getElementById('home-sample-btn').href = data.pdfUrl || "#";
+                }
+            } catch (error) {
+                console.error("Error loading sample:", error);
+            }
+        }
+
+        // Run the function as soon as the page loads
+        loadHomepageSample();
     </script>
     
 </body>
