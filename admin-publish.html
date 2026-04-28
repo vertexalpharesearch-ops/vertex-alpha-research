@@ -66,9 +66,9 @@
                     <input type="file" id="preview-pdf-file" accept="application/pdf" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="full-pdf-group">
                     <label>🔒 Upload FULL PDF (Premium Users)</label>
-                    <input type="file" id="full-pdf-file" accept="application/pdf" required>
+                    <input type="file" id="full-pdf-file" accept="application/pdf">
                 </div>
 
                 <button type="submit" class="btn-primary full-width" id="submit-btn">Upload & Publish</button>
@@ -114,6 +114,30 @@
             }
         });
 
+        // --- DYNAMIC UI LOGIC: HIDES PREMIUM UPLOAD FOR FREE SAMPLE ---
+        const categorySelect = document.getElementById('category');
+        const fullPdfGroup = document.getElementById('full-pdf-group');
+        const fullPdfInput = document.getElementById('full-pdf-file');
+
+        // Check on load
+        if (categorySelect.value === "Homepage Sample") {
+            fullPdfGroup.style.display = 'none';
+            fullPdfInput.required = false;
+        } else {
+            fullPdfInput.required = true;
+        }
+
+        // Listen for user changing the dropdown
+        categorySelect.addEventListener('change', (e) => {
+            if (e.target.value === "Homepage Sample") {
+                fullPdfGroup.style.display = 'none';
+                fullPdfInput.required = false;
+            } else {
+                fullPdfGroup.style.display = 'block';
+                fullPdfInput.required = true;
+            }
+        });
+
         const form = document.getElementById('publish-form');
         const submitBtn = document.getElementById('submit-btn');
         const statusMsg = document.getElementById('status-message');
@@ -129,36 +153,47 @@
                 const category = document.getElementById('category').value;
                 const summary = document.getElementById('summary').value;
                 
-                // Get both files
+                // Get preview file (used for both)
                 const previewFile = document.getElementById('preview-pdf-file').files[0];
-                const fullFile = document.getElementById('full-pdf-file').files[0];
-
-                // Create unique names
                 const previewName = `reports/preview_${Date.now()}_${previewFile.name}`;
-                const fullName = `reports/full_${Date.now()}_${fullFile.name}`;
 
-                // Upload BOTH files at the same time
-                const [previewSnap, fullSnap] = await Promise.all([
-                    uploadBytes(ref(storage, previewName), previewFile),
-                    uploadBytes(ref(storage, fullName), fullFile)
-                ]);
-
-                submitBtn.innerText = "Saving to Database...";
-
-                // Get both download URLs
-                const previewPdfUrl = await getDownloadURL(previewSnap.ref);
-                const fullPdfUrl = await getDownloadURL(fullSnap.ref);
-
-                // Save to database
+                // --- SPLIT UPLOAD LOGIC ---
                 if (category === "Homepage Sample") {
-                    // 1. Save ONLY to the settings document (Overwrites the old homepage sample)
+                    
+                    // 1. UPLOAD ONLY PREVIEW FILE
+                    const previewSnap = await uploadBytes(ref(storage, previewName), previewFile);
+                    const previewPdfUrl = await getDownloadURL(previewSnap.ref);
+                    
+                    submitBtn.innerText = "Saving to Database...";
+
+                    // Save to settings document
                     await setDoc(doc(db, "settings", "homepage_featured"), {
                         title: title,
                         meta: summary,
-                        pdfUrl: previewPdfUrl // Uses the uploaded preview file for the homepage link
+                        pdfUrl: previewPdfUrl 
                     });
+
                 } else {
-                    // 2. Normal publish to member dashboard
+
+                    // 2. NORMAL PUBLISH: UPLOAD BOTH FILES
+                    const fullFile = document.getElementById('full-pdf-file').files[0];
+                    if (!fullFile) throw new Error("Full PDF is required for standard reports.");
+                    
+                    const fullName = `reports/full_${Date.now()}_${fullFile.name}`;
+
+                    // Upload BOTH files at the same time
+                    const [previewSnap, fullSnap] = await Promise.all([
+                        uploadBytes(ref(storage, previewName), previewFile),
+                        uploadBytes(ref(storage, fullName), fullFile)
+                    ]);
+
+                    submitBtn.innerText = "Saving to Database...";
+
+                    // Get both download URLs
+                    const previewPdfUrl = await getDownloadURL(previewSnap.ref);
+                    const fullPdfUrl = await getDownloadURL(fullSnap.ref);
+
+                    // Save to reports database
                     await addDoc(collection(db, "reports"), {
                         title: title,
                         category: category,
@@ -170,6 +205,9 @@
                 }
 
                 form.reset();
+                // Reset the UI dropdown display state
+                categorySelect.dispatchEvent(new Event('change'));
+                
                 statusMsg.className = "success";
                 statusMsg.innerText = "Report published successfully!";
             } catch (error) {
