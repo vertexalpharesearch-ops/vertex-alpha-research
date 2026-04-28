@@ -52,6 +52,7 @@
                         <option value="Equities">Equities</option>
                         <option value="Crypto">Crypto Strategies</option>
                         <option value="Macro">Macro</option>
+                        <option value="Homepage Sample">Homepage Free Sample (Landing Page Only)</option>
                     </select>
                 </div>
 
@@ -79,7 +80,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
@@ -149,14 +150,24 @@
                 const fullPdfUrl = await getDownloadURL(fullSnap.ref);
 
                 // Save to database
-                await addDoc(collection(db, "reports"), {
-                    title: title,
-                    category: category,
-                    summary: summary,
-                    publishDate: serverTimestamp(),
-                    previewPdfUrl: previewPdfUrl,
-                    fullPdfUrl: fullPdfUrl
-                });
+                if (category === "Homepage Sample") {
+                    // 1. Save ONLY to the settings document (Overwrites the old homepage sample)
+                    await setDoc(doc(db, "settings", "homepage_featured"), {
+                        title: title,
+                        meta: summary,
+                        pdfUrl: previewPdfUrl // Uses the uploaded preview file for the homepage link
+                    });
+                } else {
+                    // 2. Normal publish to member dashboard
+                    await addDoc(collection(db, "reports"), {
+                        title: title,
+                        category: category,
+                        summary: summary,
+                        publishDate: serverTimestamp(),
+                        previewPdfUrl: previewPdfUrl,
+                        fullPdfUrl: fullPdfUrl
+                    });
+                }
 
                 form.reset();
                 statusMsg.className = "success";
