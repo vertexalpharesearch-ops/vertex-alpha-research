@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,215 +11,240 @@
     <div id="global-loader">
         <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
     </div>
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="logo.png" alt="Vertex Alpha Icon">
-                     Vertex Alpha Research
-                </a>
+
+
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Vertex Alpha Icon">
+                Vertex Alpha Research
+            </a>
         </div>
-            <nav>
-                <a href="index.html" class="active">Home</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="about.html">About</a>
-                <a href="dashboard.html">Dashboard</a>
-            </nav>
-            <div class="nav-buttons">
-                <a href="login.html" class="btn-secondary">Login</a>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="pricing.html">Pricing</a>
+            <a href="about.html">About</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+        <div class="nav-buttons">
+            <a href="login.html" class="btn-secondary">Login</a>
+            <a href="pricing.html" class="btn-primary">Join Premium</a>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container hero-content">
+        <div class="hero-text">
+            <h1>Institutional Research for Retail Investors</h1>
+            <p>Get access to high-conviction stock & IPO research reports backed by data-driven analysis.</p>
+            
+            <div class="hero-cta">
+                <input type="email" id="homepageEmail" placeholder="Enter email for free report" class="email-input">
+                <button class="btn-primary" onclick="saveEmailAndRedirect()">Download Free Report</button>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <a href="#sample" class="btn-secondary" style="margin-right: 10px;">View Sample</a>
                 <a href="pricing.html" class="btn-primary">Join Premium</a>
             </div>
         </div>
-    </header>
 
-    <section class="hero">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <h1>Institutional Research for Retail Investors</h1>
-                <p>Get access to high-conviction stock & IPO research reports backed by data-driven analysis.</p>
-                
-                <div class="hero-cta">
-                    <input type="email" placeholder="Enter email for free report" class="email-input">
-                    <button class="btn-primary" onclick="window.location.href='login.html'">Download Free Report</button>
-                </div>
-                <div style="margin-top: 15px;">
-                    <a href="#sample" class="btn-secondary" style="margin-right: 10px;">View Sample</a>
-                    <a href="pricing.html" class="btn-primary">Join Premium</a>
-                </div>
-            </div>
-            <div class="hero-graphic">
-                <div class="mockup-box">
-                    <h3>Latest Deep Dive</h3>
-                    <p class="green-text">Pre-IPO Analysis: [Company X]</p>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Growth Drivers • Financials • Verdict</p>
-                </div>
+        <div class="hero-graphic">
+            <div class="mockup-box">
+                <h3>Latest Deep Dive</h3>
+                <p class="green-text">Pre-IPO Analysis: [Company X]</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+                    Growth Drivers • Financials • Verdict
+                </p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="features bg-darker">
-        <div class="container">
-            <h2 class="text-center" style="margin-bottom: 40px;">Our Research Edge</h2>
-            <div class="grid-3">
-                <div class="feature-card">
-                    <h3>Pre-IPO Research</h3>
-                    <p>Identify massive growth potential before companies hit the public markets.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Equity Research</h3>
-                    <p>Deep-dive reports including investment thesis, financial analysis, and clear verdicts.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Market Insights & Telegram</h3>
-                    <p>Get real-time priority updates and exclusive access to our members-only Telegram channel.</p>
-                </div>
+<section class="features bg-darker">
+    <div class="container">
+        <h2 class="text-center" style="margin-bottom: 40px;">Our Research Edge</h2>
+        <div class="grid-3">
+            <div class="feature-card">
+                <h3>Pre-IPO Research</h3>
+                <p>Identify massive growth potential before companies hit the public markets.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Equity Research</h3>
+                <p>Deep-dive reports including investment thesis, financial analysis, and clear verdicts.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Market Insights & Telegram</h3>
+                <p>Get real-time priority updates and exclusive access to our members-only Telegram channel.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="features" id="sample">
-        <div class="container text-center">
-            <h2 style="color: var(--accent-green); margin-bottom: 10px;">Backed by Data. Driven by Results.</h2>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 40px auto;">Led by our Chief Research Analyst, we provide independent research based strictly on data, market trends, and asymmetric risk analysis. No hype, just high-conviction setups.</p>
-            
-            <div class="mockup-box" style="max-width: 700px; margin: 0 auto; text-align: left;">
-                <span class="tag">Free Sample</span>
-                <h3 id="home-sample-title" style="margin: 15px 0;">Palantir (PLTR) – Deep Research Report</h3>
-                <p id="home-sample-meta" style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">Investment Thesis • Financial Analysis • Growth Drivers • Risks</p>
-                <a href="#" id="home-sample-btn" target="_blank" class="btn-secondary">Download PDF Preview ↓</a>
+<section class="features" id="sample">
+    <div class="container text-center">
+        <h2 style="color: var(--accent-green); margin-bottom: 10px;">Backed by Data. Driven by Results.</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 40px auto;">
+            Led by our Chief Research Analyst, we provide independent research based strictly on data,
+            market trends, and asymmetric risk analysis. No hype, just high-conviction setups.
+        </p>
+        
+        <div class="mockup-box" style="max-width: 700px; margin: 0 auto; text-align: left;">
+            <span class="tag">Free Sample</span>
+
+            <h3 id="home-sample-title" style="margin: 15px 0;">
+                Palantir (PLTR) – Deep Research Report
+            </h3>
+
+            <p id="home-sample-meta" style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+                Investment Thesis • Financial Analysis • Growth Drivers • Risks
+            </p>
+
+            <!-- 🔒 Locked -->
+            <a href="pricing.html" class="btn-secondary locked">
+                🔒 Full Report (Premium Only)
+            </a>
+
+            <!-- 🔓 Premium -->
+            <a href="#" id="home-sample-btn" target="_blank" class="btn-primary premium" style="display:none;">
+                Download Full Report ↓
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="features bg-darker text-center">
+    <div class="container">
+        <h2>Choose Your Edge</h2>
+        <div class="grid-3" style="margin-top: 40px;">
+            <div class="price-card">
+                <h3>Basic</h3>
+                <div class="price">$0</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    1-2 sample reports & limited insights.
+                </p>
+            </div>
+            <div class="price-card featured">
+                <h3>Premium</h3>
+                <div class="price">$20<span>/mo</span></div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Full reports, archive access & Telegram.
+                </p>
+            </div>
+            <div class="price-card">
+                <h3>Ultra Premium</h3>
+                <div class="price">$50<span>/mo</span></div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Pre-IPO research, early access & Q&A.
+                </p>
             </div>
         </div>
-    </section>
 
-    <section class="features bg-darker text-center">
-        <div class="container">
-            <h2>Choose Your Edge</h2>
-            <div class="grid-3" style="margin-top: 40px;">
-                <div class="price-card">
-                    <h3>Basic</h3>
-                    <div class="price">$0</div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">1-2 sample reports & limited insights.</p>
-                </div>
-                <div class="price-card featured">
-                    <h3>Premium</h3>
-                    <div class="price">$20<span>/mo</span></div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Full reports, archive access & Telegram.</p>
-                </div>
-                <div class="price-card">
-                    <h3>Ultra Premium</h3>
-                    <div class="price">$50<span>/mo</span></div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Pre-IPO research, early access & Q&A.</p>
-                </div>
+        <a href="pricing.html" class="btn-primary" style="margin-top: 30px; display: inline-block;">
+            View Full Pricing Details
+        </a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Vertex Alpha Research</h4>
             </div>
-            <a href="pricing.html" class="btn-primary" style="margin-top: 30px; display: inline-block;">View Full Pricing Details</a>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h4>Vertex Alpha Research</h4>
-                </div>
-                <div>
-                    <h4>Links</h4>
-                    <a href="about.html">About Us</a><br>
-                    <a href="disclaimer.html">Disclaimer</a><br>
-                    <a href="#">Privacy Policy</a>
-                </div>
+            <div>
+                <h4>Links</h4>
+                <a href="about.html">About Us</a><br>
+                <a href="disclaimer.html">Disclaimer</a><br>
+                <a href="#">Privacy Policy</a>
             </div>
-            <p class="copyright">&copy; 2026 Vertex Alpha Research. All rights reserved.</p>
         </div>
-    </footer>
+        <p class="copyright">
+            &copy; 2026 Vertex Alpha Research. All rights reserved.
+        </p>
+    </div>
+</footer>
 
-    <script>
-        // Wait for the window to load, then fade out the loader
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('global-loader');
-            // Adding a small 500ms delay so the animation can breathe
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 500); 
-        });
-    </script>
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('global-loader');
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        }, 500);
+    });
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    function saveEmailAndRedirect() {
+        const email = document.getElementById("homepageEmail").value;
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
-            authDomain: "vertex-alpha-research.firebaseapp.com",
-            projectId: "vertex-alpha-research",
-            storageBucket: "vertex-alpha-research.firebasestorage.app",
-            messagingSenderId: "992971890985",
-            appId: "1:992971890985:web:1dec88b6a69a5812e61738"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        async function loadHomepageSample() {
-            try {
-                // Look for the special settings document Swarnam saves
-                const docRef = doc(db, "settings", "homepage_featured");
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    // Inject the live data into the HTML
-                    document.getElementById('home-sample-title').innerText = data.title || "Featured Deep Dive";
-                    document.getElementById('home-sample-meta').innerText = data.meta || "Growth Drivers • Financials • Verdict";
-                    document.getElementById('home-sample-btn').href = data.pdfUrl || "#";
-                }
-            } catch (error) {
-                console.error("Error loading sample:", error);
-            }
+        if (email) {
+            localStorage.setItem("userEmail", email);
         }
 
-        // Run the function as soon as the page loads
-        loadHomepageSample();
+        window.location.href = "login.html";
+    }
+</script>
 
-        async function checkUserAccess() {
-            try {
-                const email = localStorage.getItem("userEmail");
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-                if (!email) {
-                    console.log("No email found");
-                    return;
-                }
+    const firebaseConfig = {
+        apiKey: "AIzaSyDS_9zdiwhNsgvfsomYd3uByPHats-8JjA",
+        authDomain: "vertex-alpha-research.firebaseapp.com",
+        projectId: "vertex-alpha-research",
+        storageBucket: "vertex-alpha-research.firebasestorage.app",
+        messagingSenderId: "992971890985",
+        appId: "1:992971890985:web:1dec88b6a69a5812e61738"
+    };
 
-                const userRef = doc(db, "users", email);
-                const userSnap = await getDoc(userRef);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-                if (userSnap.exists() && userSnap.data().premium === true) {
-                    console.log("✅ Premium user");
+    async function loadHomepageSample() {
+        try {
+            const docRef = doc(db, "settings", "homepage_featured");
+            const docSnap = await getDoc(docRef);
 
-                    // Hide locked content
-                    document.querySelectorAll(".locked").forEach(el => el.style.display = "none");
-
-                    // Show premium content
-                    document.querySelectorAll(".premium").forEach(el => el.style.display = "block");
-
-                } else {
-                    console.log("❌ Free user");
-
-                    // Show locked content
-                    document.querySelectorAll(".locked").forEach(el => el.style.display = "block");
-
-                    // Hide premium content
-                    document.querySelectorAll(".premium").forEach(el => el.style.display = "none");
-                }
-
-            } catch (error) {
-                console.error("Error checking user:", error);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('home-sample-title').innerText = data.title || "Featured Deep Dive";
+                document.getElementById('home-sample-meta').innerText = data.meta || "Growth Drivers • Financials • Verdict";
+                document.getElementById('home-sample-btn').href = data.pdfUrl || "#";
             }
+        } catch (error) {
+            console.error("Error loading sample:", error);
         }
+    }
 
-        checkUserAccess();
+    async function checkUserAccess() {
+        try {
+            const email = localStorage.getItem("userEmail");
 
-    </script>
-    
+            if (!email) return;
+
+            const userRef = doc(db, "users", email);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists() && userSnap.data().premium === true) {
+                document.querySelectorAll(".locked").forEach(el => el.style.display = "none");
+                document.querySelectorAll(".premium").forEach(el => el.style.display = "block");
+            } else {
+                document.querySelectorAll(".locked").forEach(el => el.style.display = "block");
+                document.querySelectorAll(".premium").forEach(el => el.style.display = "none");
+            }
+
+        } catch (error) {
+            console.error("Error checking user:", error);
+        }
+    }
+
+    loadHomepageSample();
+    checkUserAccess();
+</script>
+
+
 </body>
 </html>
