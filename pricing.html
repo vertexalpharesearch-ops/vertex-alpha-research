@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,91 +12,124 @@
         <img src="logo.png" class="loader-logo" alt="Vertex Alpha Loading">
     </div>
 
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="logo.png" alt="Vertex Alpha Icon">
-                    Vertex Alpha Research
-                </a>
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Vertex Alpha Icon">
+                Vertex Alpha Research
+            </a>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="pricing.html" class="active">Pricing</a>
+            <a href="about.html">About</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+        <div class="nav-buttons">
+            <a href="login.html" class="btn-secondary">Login</a>
+        </div>
+    </div>
+</header>
+
+<section class="pricing-section">
+    <div class="container text-center">
+        <h1>Simple pricing for serious investors.</h1>
+        <p>Choose the edge that fits your investing style. Cancel anytime.</p>
+
+        <!-- Email Capture -->
+        <div style="margin-bottom: 20px;">
+            <input type="email" id="userEmailInput" placeholder="Enter your email to continue" class="email-input">
+        </div>
+        
+        <div class="billing-toggle">
+            <span id="monthly-label" class="active">Monthly</span>
+            <label class="switch">
+                <input type="checkbox" id="billing-switch">
+                <span class="slider round"></span>
+            </label>
+            <span id="yearly-label">Yearly <span class="badge">Save 20%</span></span>
+        </div>
+
+        <div class="grid-3 pricing-cards">
+            <div class="price-card">
+                <h3>Basic</h3>
+                <div class="price">$0<span>/mo</span></div>
+                <ul class="features-list">
+                    <li>1–2 Sample Reports</li>
+                    <li>Limited Market Insights</li>
+                    <li class="disabled">Full Research Archive</li>
+                    <li class="disabled">Telegram Channel</li>
+                </ul>
+                <button class="btn-secondary full-width" onclick="window.location.href='login.html'">Join Free</button>
             </div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="pricing.html" class="active">Pricing</a>
-                <a href="about.html">About</a>
-                <a href="dashboard.html">Dashboard</a>
-            </nav>
-            <div class="nav-buttons">
-                <a href="login.html" class="btn-secondary">Login</a>
+
+            <div class="price-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <h3>Premium</h3>
+                <div class="price">$20<span>/mo</span></div>
+                <ul class="features-list">
+                    <li>Full Research Reports</li>
+                    <li>Past Reports Archive Access</li>
+                    <li>Exclusive Telegram Channel</li>
+                    <li class="disabled">Pre-IPO Research</li>
+                </ul>
+                <button class="btn-primary full-width" onclick="goToPayment('premium')">
+                    Subscribe to Premium
+                </button>
+                <p style="font-size:12px; color:gray; margin-top:10px;">
+                    Access to financial research and educational content only. Not investment advice.
+                </p>
+            </div>
+
+            <div class="price-card">
+                <h3>Ultra Premium</h3>
+                <div class="price">$50<span>/mo</span></div>
+                <ul class="features-list">
+                    <li>Pre-IPO Research</li>
+                    <li>Early Access to Reports</li>
+                    <li>Priority Updates</li>
+                    <li>Direct Q&A Access</li>
+                </ul>
+                <button class="btn-primary full-width" onclick="goToPayment('ultra')">
+                    Subscribe to Ultra Premium
+                </button>
+                <p style="font-size:12px; color:gray; margin-top:10px;">
+                    Access to financial research and educational content only. Not investment advice.
+                </p>
             </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    <section class="pricing-section">
-        <div class="container text-center">
-            <h1>Simple pricing for serious investors.</h1>
-            <p>Choose the edge that fits your investing style. Cancel anytime.</p>
-            
-            <div class="billing-toggle">
-                <span id="monthly-label" class="active">Monthly</span>
-                <label class="switch">
-                    <input type="checkbox" id="billing-switch">
-                    <span class="slider round"></span>
-                </label>
-                <span id="yearly-label">Yearly <span class="badge">Save 20%</span></span>
-            </div>
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('global-loader');
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        }, 500); 
+    });
 
-            <div class="grid-3 pricing-cards">
-                <div class="price-card">
-                    <h3>Basic</h3>
-                    <div class="price">$0<span>/mo</span></div>
-                    <ul class="features-list">
-                        <li>1–2 Sample Reports</li>
-                        <li>Limited Market Insights</li>
-                        <li class="disabled">Full Research Archive</li>
-                        <li class="disabled">Telegram Channel</li>
-                    </ul>
-                    <button class="btn-secondary full-width" onclick="window.location.href='login.html'">Join Free</button>
-                </div>
+    function goToPayment(plan) {
+        const email = document.getElementById("userEmailInput").value;
 
-                <div class="price-card featured">
-                    <div class="popular-badge">Most Popular</div>
-                    <h3>Premium</h3>
-                    <div class="price" id="pro-price">$20<span>/mo</span></div>
-                    <ul class="features-list">
-                        <li>Full Research Reports</li>
-                        <li>Past Reports Archive Access</li>
-                        <li>Exclusive Telegram Channel</li>
-                        <li class="disabled">Pre-IPO Research</li>
-                    </ul>
-                    <button class="https://buy.stripe.com/8x27sN4Lydj25Rb3gf9Ve01">Subscribe to Premium</button>
-                </div>
+        if (!email) {
+            alert("Please enter your email first");
+            return;
+        }
 
-                <div class="price-card">
-                    <h3>Ultra Premium</h3>
-                    <div class="price" id="premium-price">$50<span>/mo</span></div>
-                    <ul class="features-list">
-                        <li>Pre-IPO Research</li>
-                        <li>Early Access to Reports</li>
-                        <li>Priority Updates</li>
-                        <li>Direct Q&A Access</li>
-                    </ul>
-                    <button class="https://buy.stripe.com/8x2dRb7XK4Mwcfz5on9Ve00">Subscribe to Ultra Premium</button>
-                </div>
-            </div>
-        </div>
-    </section>
+        // Save email for Firebase tracking
+        localStorage.setItem("userEmail", email);
 
-    <script src="script.js"></script>
+        // Redirect to Stripe
+        if (plan === "premium") {
+            window.location.href = "https://buy.stripe.com/8x27sN4Lydj25Rb3gf9Ve01";
+        } else {
+            window.location.href = "https://buy.stripe.com/8x2dRb7XK4Mwcfz5on9Ve00";
+        }
+    }
+</script>
 
-    <script>
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('global-loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 500); 
-        });
-    </script>
 </body>
 </html>
