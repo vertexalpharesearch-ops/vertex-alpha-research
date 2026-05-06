@@ -179,6 +179,45 @@
 
         // Run the function as soon as the page loads
         loadHomepageSample();
+
+        async function checkUserAccess() {
+            try {
+                const email = localStorage.getItem("userEmail");
+
+                if (!email) {
+                    console.log("No email found");
+                    return;
+                }
+
+                const userRef = doc(db, "users", email);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists() && userSnap.data().premium === true) {
+                    console.log("✅ Premium user");
+
+                    // Hide locked content
+                    document.querySelectorAll(".locked").forEach(el => el.style.display = "none");
+
+                    // Show premium content
+                    document.querySelectorAll(".premium").forEach(el => el.style.display = "block");
+
+                } else {
+                    console.log("❌ Free user");
+
+                    // Show locked content
+                    document.querySelectorAll(".locked").forEach(el => el.style.display = "block");
+
+                    // Hide premium content
+                    document.querySelectorAll(".premium").forEach(el => el.style.display = "none");
+                }
+
+            } catch (error) {
+                console.error("Error checking user:", error);
+            }
+        }
+
+        checkUserAccess();
+
     </script>
     
 </body>
